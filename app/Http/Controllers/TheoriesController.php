@@ -24,6 +24,8 @@ class TheoriesController extends Controller
         $this->em->remove($theory);
         $this->em->flush();
 
+        redirect('scientist')->with('success_message', 'Theory deleted successfully!');
+
         return response()->json(['success' => true]);
     }
 }

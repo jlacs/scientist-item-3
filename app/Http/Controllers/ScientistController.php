@@ -64,6 +64,8 @@ class ScientistController extends Controller
         $this->em->persist($scientist);
         $this->em->flush();
 
+        redirect('scientist')->with('success_message', 'Theory added successfully!');
+
         return response()->json(['success' => true]);
     }
 

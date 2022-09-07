@@ -63,7 +63,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="scientistModalLabel">Add Theory</h5>
+                    <h5 class="modal-title" id="scientistModalLabel">Add Scientist</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -113,7 +113,7 @@
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">Theory</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="theory" name="theory" value="" maxlength="50" required="">
+                            <input type="text" class="form-control" id="theory1" name="theory" value="" maxlength="50" required="">
                             <span id="name-span" class="text-danger">
                                 <label class="col-form-label-sm" id="name-error"></label>
                             </span>
@@ -135,6 +135,10 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
+            });
+
+            $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+                $("#success-alert").slideUp(500);
             });
         
             $('body').on('click', '.add-theory', function () {
@@ -186,7 +190,7 @@
 
             $('body').on('click', '#save-theory', function (event) {
                 var id = $("#id").val();
-                var theory = $('#theory').val();
+                var theory = $('#theory1').val();
                 
                 $.ajax({
                     type:"POST",
