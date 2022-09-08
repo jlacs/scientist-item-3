@@ -25,7 +25,7 @@ class ScientistController extends Controller
         ]);
     }
 
-    public function edit(Request $request)
+    public function getScientist(Request $request)
     {
         $scientist = $this->em->getRepository(Scientist::class)->find($request->id);
  
@@ -34,7 +34,7 @@ class ScientistController extends Controller
         ]);
     }
 
-    public function addScientist(Request $request)
+    public function saveScientist(Request $request)
     {
         $scientist = new Scientist(
             $request->firstname,
@@ -53,7 +53,7 @@ class ScientistController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function addTheory(Request $request)
+    public function saveTheory(Request $request)
     {
         $scientist = $this->em->getRepository(Scientist::class)->find($request->id);
 

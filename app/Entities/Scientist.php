@@ -17,17 +17,17 @@ class Scientist
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    protected $id;
+    protected int $id;
 
     /**
      * @ORM\Column(type="string")
      */
-    protected $firstname;
+    protected string $firstname;
 
     /**
      * @ORM\Column(type="string")
      */
-    protected $lastname;
+    protected string $lastname;
 
     /**
     * @ORM\OneToMany(targetEntity="Theories", mappedBy="scientist", cascade={"persist"})
@@ -39,7 +39,7 @@ class Scientist
     * @param $firstname
     * @param $lastname
     */
-    public function __construct($firstname, $lastname)
+    public function __construct(string $firstname, string $lastname)
     {
         $this->firstname = $firstname;
         $this->lastname  = $lastname;
@@ -60,6 +60,16 @@ class Scientist
     public function getLastname()
     {
         return $this->lastname;
+    }
+
+    public function setFirstname(string $firstname)
+    {
+        $this->firstname = $firstname;
+    }
+
+    public function setLastname(string $lastname)
+    {
+        $this->lastname = $lastname;
     }
 
     public function addTheory(Theories $theories)

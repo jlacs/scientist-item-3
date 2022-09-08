@@ -16,12 +16,12 @@ class Theories
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    protected $id;
+    protected int $id;
 
     /**
      * @ORM\Column(type="string")
      */
-    protected $title;
+    protected string $title;
 
     /**
     * @ORM\ManyToOne(targetEntity="Scientist", inversedBy="theories")

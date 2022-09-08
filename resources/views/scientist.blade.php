@@ -13,14 +13,16 @@
             </div>
             <div class="col-md-12 mt-1">
                 <table class="table table-hover">
-                    <tr>
-                        <th>ID</th>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
-                        <th>Theories</th>
-                        <th>Action</th>
-                    </tr>
-
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Theories</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     @forelse($scientists as $scientist)
                         <tr>
                             <td>{{ $scientist->getId() }}</td>
@@ -31,18 +33,22 @@
                                 
                                 @foreach($scientist->getTheories() as $theory)
                                     <tr>
-                                        <td>{{ $theory->getTitle() }}
+                                        <td>
+                                            <a href="#" class="mt-2 col-md-12 text-secondary edit-theory" data-toggle="modal" data-target="#theoryModal" data-id="{{ $theory->getId() }}">{{ $theory->getTitle() }}</a>
                                             <button class="btn btn-sm deletebtn float-right delete-theory" data-id="{{ $theory->getId() }}">
-                                                <i class="fa fa-close"></i>
+                                                <span class="badge badge-grey"><i class="fas fa-close"></i></span>
                                             </button>
                                         </td>
                                     </tr>
                                 @endforeach
                                 
                                 </table>
-                                <a href="#" class="mt-2 col-md-12 add-theory" data-toggle="modal" data-target="#theoryModal" data-id="{{ $scientist->getId() }}">Add Theory</a>
+                                <a href="#" id="add-theory" class="mt-2 col-md-12 add-theory" data-toggle="modal" data-target="#theoryModal" data-id="{{ $scientist->getId() }}">Add Theory</a>
                             </td>
-                            <td>
+                            <td class="align-middle">
+                                <button class="btn btn-success delete-scientist" data-id="{{ $scientist->getId() }}">
+                                    <i class="fa fa-pen fa-sm"></i>
+                                </button>
                                 <button class="btn btn-danger delete-scientist" data-id="{{ $scientist->getId() }}">
                                     <i class="fa fa-trash fa-sm"></i>
                                 </button>
@@ -53,6 +59,7 @@
                             <td colspan="5">No scientist in the list... for now!</td>
                         </tr>
                     @endforelse
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -142,16 +149,33 @@
             });
         
             $('body').on('click', '.add-theory', function () {
+                $('#theory1').val('');
                 var id = $(this).data('id');
                 var theory = $(this).data('theory');
                 
                 $.ajax({
                     type:"POST",
-                    url: "{{ url('update') }}",
+                    url: "{{ url('getScientist') }}",
                     data: { id: id },
                     dataType: 'json',
                     success: function(res) {
                         $('#id').val(res.id);
+                    }
+                });
+            });
+
+            $('body').on('click', '.edit-theory', function () {
+                var id = $(this).data('id');
+                var theory = $(this).data('theory');
+                
+                $.ajax({
+                    type:"POST",
+                    url: "{{ url('editTheory') }}",
+                    data: { id: id },
+                    dataType: 'json',
+                    success: function(res) {
+                        $('#id').val(res.id);
+                        $('#theory1').val(res.theory);
                     }
                 });
             });
@@ -194,7 +218,7 @@
                 
                 $.ajax({
                     type:"POST",
-                    url: "{{ url('addTheory') }}",
+                    url: "{{ url('saveTheory') }}",
                     data: {
                         id: id,
                         theory: theory
@@ -215,7 +239,7 @@
                 
                 $.ajax({
                     type:"POST",
-                    url: "{{ url('addScientist') }}",
+                    url: "{{ url('saveScientist') }}",
                     data: {
                         firstname: firstname,
                         lastname: lastname,

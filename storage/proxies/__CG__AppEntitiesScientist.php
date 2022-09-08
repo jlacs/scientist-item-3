@@ -217,6 +217,28 @@ class Scientist extends \App\Entities\Scientist implements \Doctrine\ORM\Proxy\P
     /**
      * {@inheritDoc}
      */
+    public function setFirstname(string $firstname)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFirstname', [$firstname]);
+
+        return parent::setFirstname($firstname);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLastname(string $lastname)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLastname', [$lastname]);
+
+        return parent::setLastname($lastname);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function addTheory(\App\Entities\Theories $theories)
     {
 

@@ -17,6 +17,16 @@ class TheoriesController extends Controller
         $this->em = $em;
     }
 
+    public function editTheory(Request $request)
+    {
+        $theory = $this->em->getRepository(Theories::class)->find($request->id);
+ 
+        return response()->json([
+            'id' => $theory->getId(),
+            'theory' => $theory->getTitle()
+        ]);
+    }
+
     public function deleteTheory(Request $request)
     {
         $theory = $this->em->getRepository(Theories::class)->find($request->id);
