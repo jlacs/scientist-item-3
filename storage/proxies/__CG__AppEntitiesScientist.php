@@ -258,4 +258,15 @@ class Scientist extends \App\Entities\Scientist implements \Doctrine\ORM\Proxy\P
         return parent::getTheories();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function setTheory(\App\Entities\Theories $theories)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTheory', [$theories]);
+
+        return parent::setTheory($theories);
+    }
+
 }

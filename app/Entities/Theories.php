@@ -48,6 +48,11 @@ class Theories
         return $this->title;
     }
 
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
     public function setScientist(Scientist $scientist)
     {
         $this->scientist = $scientist;

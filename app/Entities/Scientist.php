@@ -84,4 +84,11 @@ class Scientist
     {
         return $this->theories;
     }
+
+    public function setTheory(Theories $theories)
+    {
+        if(!$this->theories->contains($theories)) {
+            $this->theories->set('title', $theories->getTitle());
+        }
+    }
 }

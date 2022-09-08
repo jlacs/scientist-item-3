@@ -22,12 +22,12 @@ Route::get('/', function () {
 });
 
 Route::get('scientist', [ScientistController::class, 'index']);
-Route::post('getScientist', [ScientistController::class, 'getScientist']);
-Route::post('saveScientist', [ScientistController::class, 'saveScientist']);
-Route::post('deleteScientist', [ScientistController::class, 'deleteScientist']);
-Route::post('editTheory', [TheoriesController::class, 'editTheory']);
-Route::post('saveTheory', [ScientistController::class, 'saveTheory']);
-Route::post('deleteTheory', [TheoriesController::class, 'deleteTheory']);
+Route::get('get-scientist', [ScientistController::class, 'getScientist']);
+Route::post('save-scientist', [ScientistController::class, 'saveScientist']);
+Route::post('delete-scientist', [ScientistController::class, 'deleteScientist']);
+Route::post('edit-theory', [TheoriesController::class, 'editTheory']);
+Route::post('save-theory', [TheoriesController::class, 'saveTheory']);
+Route::post('delete-theory', [TheoriesController::class, 'deleteTheory']);
 
 Route::get('add-scientist', function (\Doctrine\ORM\EntityManagerInterface $em) {
     $scientist = new Scientist('Albert', 'Einstein');

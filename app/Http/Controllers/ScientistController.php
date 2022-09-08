@@ -30,25 +30,38 @@ class ScientistController extends Controller
         $scientist = $this->em->getRepository(Scientist::class)->find($request->id);
  
         return response()->json([
-            'id' => $scientist->getId()
+            'id' => $scientist->getId(),
+            'firstname' => $scientist->getFirstname(),
+            'lastname' => $scientist->getLastname()
         ]);
     }
 
     public function saveScientist(Request $request)
     {
-        $scientist = new Scientist(
-            $request->firstname,
-            $request->lastname
-        );
+        if(empty($request->id)) {
+            $scientist = new Scientist(
+                $request->firstname,
+                $request->lastname
+            );
 
-        $scientist->addTheory(
-            new Theories($request->theory)
-        );    
+            $scientist->addTheory(
+                new Theories($request->theory)
+            );
+
+            $message = 'Scientist added successfully!';
+        } else {
+            $scientist = $this->em->getRepository(Scientist::class)->find($request->id);
+
+            $scientist->setFirstname($request->firstname);
+            $scientist->setLastname($request->lastname);
+
+            $message = 'Scientist updated successfully!';
+        }
 
         $this->em->persist($scientist);
         $this->em->flush();
 
-        redirect('scientist')->with('success_message', 'Scientist added successfully!');
+        redirect('scientist')->with('success_message', $message);
 
         return response()->json(['success' => true]);
     }

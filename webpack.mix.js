@@ -12,6 +12,15 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+mix.js('resources/js/scientist/save.js', 'public/js/scientist')
+mix.js('resources/js/scientist/edit.js', 'public/js/scientist')
+mix.js('resources/js/scientist/create.js', 'public/js/scientist')
+mix.js('resources/js/scientist/delete.js', 'public/js/scientist')
+
+mix.js('resources/js/theory/save.js', 'public/js/theory')
+mix.js('resources/js/theory/edit.js', 'public/js/theory')
+mix.js('resources/js/theory/create.js', 'public/js/theory')
+mix.js('resources/js/theory/delete.js', 'public/js/theory')
     .postCss('resources/css/app.css', 'public/css', [
         //
     ]);

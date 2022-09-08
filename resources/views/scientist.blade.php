@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('title') Tasks List @endsection
+@section('title') Scientist Contribution @endsection
 
 @section('content')
     <div class="row">
@@ -9,7 +9,7 @@
                 <h2>Scientist Contributions!</h2>
             </div>
             <div class="col-md-12 d-flex flex-row-reverse mt-1 mb-1">
-                <button type="button" id="add-scientist" class="btn btn-success" data-toggle="modal" data-target="#scientistModal">Add Scientist</button>
+                <button type="button" id="add-scientist" class="btn btn-success add-scientist" data-toggle="modal" data-target="#scientistModal">Add Scientist</button>
             </div>
             <div class="col-md-12 mt-1">
                 <table class="table table-hover">
@@ -46,7 +46,7 @@
                                 <a href="#" id="add-theory" class="mt-2 col-md-12 add-theory" data-toggle="modal" data-target="#theoryModal" data-id="{{ $scientist->getId() }}">Add Theory</a>
                             </td>
                             <td class="align-middle">
-                                <button class="btn btn-success delete-scientist" data-id="{{ $scientist->getId() }}">
+                                <button class="btn btn-success edit-scientist" data-toggle="modal" data-target="#scientistModal" data-id="{{ $scientist->getId() }}">
                                     <i class="fa fa-pen fa-sm"></i>
                                 </button>
                                 <button class="btn btn-danger delete-scientist" data-id="{{ $scientist->getId() }}">
@@ -70,7 +70,6 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="scientistModalLabel">Add Scientist</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -89,7 +88,7 @@
                             <input type="text" class="form-control" id="lastname" name="lastname" value="" maxlength="50" required="">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div id="theory-form" class="form-group theory-form">
                         <label for="name" class="col-sm-2 control-label">Theory</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="theory" name="theory" value="" maxlength="50">
@@ -98,7 +97,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" id="save-scientist" class="btn btn-primary">Add</button>
+                    <button type="button" id="save-scientist" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
@@ -117,25 +116,33 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="id" id="id">
+                    <input type="hidden" name="action" id="action">
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">Theory</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="theory1" name="theory" value="" maxlength="50" required="">
-                            <span id="name-span" class="text-danger">
-                                <label class="col-form-label-sm" id="name-error"></label>
-                            </span>
+                            <input type="text" class="form-control theory" id="theory1" name="theory" value="" maxlength="50" required="">
                         </div>  
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" id="save-theory" class="btn btn-primary">Add</button>
+                    <button type="button" id="save-theory" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Modal Add Theory End-->
-    
+
+    <script type="text/javascript" src="js/scientist/save.js"></script>
+    <script type="text/javascript" src="js/scientist/edit.js"></script>
+    <script type="text/javascript" src="js/scientist/create.js"></script>
+    <script type="text/javascript" src="js/scientist/delete.js"></script>
+
+    <script type="text/javascript" src="js/theory/save.js"></script>
+    <script type="text/javascript" src="js/theory/edit.js"></script>
+    <script type="text/javascript" src="js/theory/create.js"></script>
+    <script type="text/javascript" src="js/theory/delete.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function($){
             $.ajaxSetup({
@@ -146,112 +153,6 @@
 
             $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
                 $("#success-alert").slideUp(500);
-            });
-        
-            $('body').on('click', '.add-theory', function () {
-                $('#theory1').val('');
-                var id = $(this).data('id');
-                var theory = $(this).data('theory');
-                
-                $.ajax({
-                    type:"POST",
-                    url: "{{ url('getScientist') }}",
-                    data: { id: id },
-                    dataType: 'json',
-                    success: function(res) {
-                        $('#id').val(res.id);
-                    }
-                });
-            });
-
-            $('body').on('click', '.edit-theory', function () {
-                var id = $(this).data('id');
-                var theory = $(this).data('theory');
-                
-                $.ajax({
-                    type:"POST",
-                    url: "{{ url('editTheory') }}",
-                    data: { id: id },
-                    dataType: 'json',
-                    success: function(res) {
-                        $('#id').val(res.id);
-                        $('#theory1').val(res.theory);
-                    }
-                });
-            });
-
-            $('body').on('click', '.delete-theory', function () {
-                if (confirm("Delete Record?") == true) {
-                    var id = $(this).data('id');
-                
-                    $.ajax({
-                        type:"POST",
-                        url: "{{ url('deleteTheory') }}",
-                        data: { id: id },
-                        dataType: 'json',
-                        success: function(res){
-                            window.location.reload();
-                        }
-                    });
-                }
-            });
-
-            $('body').on('click', '.delete-scientist', function () {
-                if (confirm("Delete Record?") == true) {
-                    var id = $(this).data('id');
-                
-                    $.ajax({
-                        type:"POST",
-                        url: "{{ url('deleteScientist') }}",
-                        data: { id: id },
-                        dataType: 'json',
-                        success: function(res){
-                            window.location.reload();
-                        }
-                    });
-                }
-            });
-
-            $('body').on('click', '#save-theory', function (event) {
-                var id = $("#id").val();
-                var theory = $('#theory1').val();
-                
-                $.ajax({
-                    type:"POST",
-                    url: "{{ url('saveTheory') }}",
-                    data: {
-                        id: id,
-                        theory: theory
-                    },
-                    dataType: 'json',
-                    success: function(res) {
-                        console.log(res);
-                        window.location.reload();
-                        $("#save-theory").attr("disabled", false);
-                    }
-                });
-            });
-
-            $('body').on('click', '#save-scientist', function (event) {
-                var firstname = $('#firstname').val();
-                var lastname = $('#lastname').val();
-                var theory = $('#theory').val();
-                
-                $.ajax({
-                    type:"POST",
-                    url: "{{ url('saveScientist') }}",
-                    data: {
-                        firstname: firstname,
-                        lastname: lastname,
-                        theory: theory
-                    },
-                    dataType: 'json',
-                    success: function(res) {
-                        console.log(res);
-                        window.location.reload();
-                        $("#save-scientist").attr("disabled", false);
-                    }
-                });
             });
         });
     </script>

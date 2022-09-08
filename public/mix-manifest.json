@@ -1,0 +1,12 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/js/scientist/save.js": "/js/scientist/save.js",
+    "/js/scientist/edit.js": "/js/scientist/edit.js",
+    "/js/scientist/create.js": "/js/scientist/create.js",
+    "/js/scientist/delete.js": "/js/scientist/delete.js",
+    "/js/theory/save.js": "/js/theory/save.js",
+    "/js/theory/edit.js": "/js/theory/edit.js",
+    "/js/theory/create.js": "/js/theory/create.js",
+    "/js/theory/delete.js": "/js/theory/delete.js",
+    "/css/app.css": "/css/app.css"
+}

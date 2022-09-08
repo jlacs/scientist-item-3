@@ -27,6 +27,34 @@ class TheoriesController extends Controller
         ]);
     }
 
+    public function saveTheory(Request $request)
+    {
+        if($request->action == 'add') {
+            $theory = $this->em->getRepository(Scientist::class)->find($request->id);
+
+            $theory->addTheory(
+                new Theories($request->theory)
+            );
+
+            $message = 'Theory added successfully!';
+        }
+
+        if($request->action == 'edit') {
+            $theory = $this->em->getRepository(Theories::class)->find($request->id);
+
+            $theory->setTitle($request->theory);
+
+            $message = 'Theory updated successfully!';
+        }
+
+        $this->em->persist($theory);
+        $this->em->flush();
+
+        redirect('scientist')->with('success_message', $message);
+
+        return response()->json(['success' => true]);
+    }
+
     public function deleteTheory(Request $request)
     {
         $theory = $this->em->getRepository(Theories::class)->find($request->id);
